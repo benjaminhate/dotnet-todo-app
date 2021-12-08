@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Todo.Domain;
 
@@ -6,29 +7,57 @@ namespace Todo.Infrastructure
 {
     public class TodoMockRepository : ITodoRepository
     {
+        private readonly List<TodoItem> _items = new List<TodoItem>
+        {
+            new TodoItem
+            {
+                Id = 0,
+                IsComplete = false,
+                Title = "My first Todo item"
+            },
+            new TodoItem
+            {
+                Id = 1,
+                IsComplete = false,
+                Title = "Task I should do but never will"
+            },
+            new TodoItem
+            {
+                Id = 2,
+                IsComplete = true,
+                Title = "Already completed task"
+            }
+        };
+
         public Task<IEnumerable<TodoItem>> GetAllItemsAsync()
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(_items.AsEnumerable());
         }
 
         public Task<TodoItem> GetItemByIdAsync(int id)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(_items.FirstOrDefault(i => i.Id == id));
         }
 
         public Task AddItemAsync(TodoItem item)
         {
-            throw new System.NotImplementedException();
+            _items.Add(item);
+            return Task.CompletedTask;
         }
 
-        public Task<TodoItem> ModifyItemAsync(TodoItem item)
+        public async Task<TodoItem> ModifyItemAsync(TodoItem item)
         {
-            throw new System.NotImplementedException();
+            var searchedItem = await GetItemByIdAsync(item.Id);
+            
+            searchedItem.ModifyFrom(item);
+
+            return searchedItem;
         }
 
-        public Task<bool> DeleteItemWithIdAsync(int id)
+        public async Task<bool> DeleteItemWithIdAsync(int id)
         {
-            throw new System.NotImplementedException();
+            var item = await GetItemByIdAsync(id);
+            return _items.Remove(item);
         }
     }
 }

@@ -10,11 +10,18 @@ namespace Todo.Presentation.API
     [ApiController]
     public class TodosController : Controller
     {
+        private readonly ITodoRepository _repository;
+
+        public TodosController(ITodoRepository repository)
+        {
+            _repository = repository;
+        }
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TodoItem>))]
         public async Task<IActionResult> GetAllTodos()
         {
-            var todos = new List<TodoItem>();
+            var todos = await _repository.GetAllItemsAsync();
             return Ok(todos);
         }
 
@@ -22,7 +29,7 @@ namespace Todo.Presentation.API
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TodoItem))]
         public async Task<IActionResult> GetTodo(int id)
         {
-            var todo = new TodoItem();
+            var todo = await _repository.GetItemByIdAsync(id);
             return Ok(todo);
         }
     }
