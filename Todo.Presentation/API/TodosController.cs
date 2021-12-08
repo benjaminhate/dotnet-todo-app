@@ -30,6 +30,8 @@ namespace Todo.Presentation.API
         public async Task<IActionResult> GetTodo(int id)
         {
             var todo = await _repository.GetItemByIdAsync(id);
+            if (todo == null)
+                return NotFound();
             return Ok(todo);
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace Todo.Domain
+﻿using System;
+
+namespace Todo.Domain
 {
     public class TodoItem
     {
@@ -10,6 +12,24 @@
         {
             Title = other.Title;
             IsComplete = other.IsComplete;
+        }
+        
+        private bool Equals(TodoItem other)
+        {
+            return Id == other.Id && Title == other.Title && IsComplete == other.IsComplete;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((TodoItem) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Title, IsComplete);
         }
     }
 }

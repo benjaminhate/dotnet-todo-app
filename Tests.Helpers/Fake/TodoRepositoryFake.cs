@@ -3,32 +3,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Todo.Domain;
 
-namespace Todo.Infrastructure
+namespace Tests.Helpers.Fake
 {
-    public class TodoMockRepository : ITodoRepository
+    public class TodoRepositoryFake : ITodoRepository
     {
         private readonly List<TodoItem> _items = new List<TodoItem>
         {
             new TodoItem
             {
                 Id = 0,
-                IsComplete = false,
-                Title = "My first Todo item"
+                Title = "First test",
+                IsComplete = false
             },
             new TodoItem
             {
                 Id = 1,
-                IsComplete = false,
-                Title = "Task I should do but never will"
-            },
-            new TodoItem
-            {
-                Id = 2,
-                IsComplete = true,
-                Title = "Already completed task"
+                Title = "Second test",
+                IsComplete = true
             }
         };
-
+        
         public Task<IEnumerable<TodoItem>> GetAllItemsAsync()
         {
             return Task.FromResult(_items.AsEnumerable());
@@ -48,12 +42,8 @@ namespace Todo.Infrastructure
         public async Task<TodoItem> ModifyItemAsync(TodoItem item)
         {
             var searchedItem = await GetItemByIdAsync(item.Id);
-
-            if (searchedItem == null)
-                return null;
-            
+            if (searchedItem == null) return null;
             searchedItem.ModifyFrom(item);
-
             return searchedItem;
         }
 
