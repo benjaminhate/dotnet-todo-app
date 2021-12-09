@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Todo.Domain;
 
 namespace Todo.Presentation.API
@@ -10,11 +12,15 @@ namespace Todo.Presentation.API
     [ApiController]
     public class TodosController : Controller
     {
+        private readonly ILogger<TodosController> _logger;
         private readonly ITodoRepository _repository;
 
-        public TodosController(ITodoRepository repository)
+        public TodosController(
+            ITodoRepository repository,
+            ILogger<TodosController> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -32,6 +38,17 @@ namespace Todo.Presentation.API
             var todo = await _repository.GetItemByIdAsync(id);
             if (todo == null)
                 return NotFound();
+            return Ok(todo);
+        }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TodoItem))]
+        public async Task<IActionResult> ModifyTodo(int id, [FromBody] TodoItem item)
+        {
+            _logger.LogInformation($"BODY - {JsonConvert.SerializeObject(item)}");
+            var todo = await _repository.ModifyItemAsync(item);
+            if (todo == null)
+                return BadRequest();
             return Ok(todo);
         }
     }

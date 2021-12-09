@@ -9,4 +9,8 @@
       <ProjectReference Include="..\Todo.Infrastructure\Todo.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    </ItemGroup>
+
 </Project>
