@@ -1,20 +1,27 @@
-﻿const apiBaseUrl = "https://localhost:5001/api/"
+﻿const api = new API()
 
-let todoListVue = new Vue({
+const todoListVue = new Vue({
     el: '#todo-list',
     data: {
         list: [],
         refreshing: false
     },
     methods: {
-        refresh: async function(){
+        async refresh(){
             this.refreshing = true
-            await fetch(apiBaseUrl+"todos")
-                .then(res => res.json())
-                .then(data => {
-                    this.list = data
-                })
-                .finally(() => this.refreshing = false)
+            let newList = await api.getAllTodos()
+            if(newList !== null)
+                this.list = newList
+            this.refreshing = false;
+        },
+        async complete(item){
+            item.isComplete = !item.isComplete
+            await api.modifyTodo(item)
+            if(item.isComplete)
+                this.pushItemToLast(item)
+        },
+        pushItemToLast(item){
+            this.list.push(this.list.splice(this.list.indexOf(item), 1)[0])
         }
     }
 })

@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Moq;
 using NFluent;
 using Tests.Helpers.Fake;
 using Todo.Domain;
@@ -13,12 +15,12 @@ namespace Todo.Presentation.Tests.API
     public class TodosControllerTests
     {
         private readonly TodosController _controller;
-        private readonly ITodoRepository _repository;
 
         public TodosControllerTests()
         {
-            _repository = new TodoRepositoryFake();
-            _controller = new TodosController(_repository);
+            var repository = new TodoRepositoryFake();
+            var logger = new Mock<ILogger<TodosController>>();
+            _controller = new TodosController(repository, logger.Object);
         }
 
         [Fact]
@@ -87,6 +89,49 @@ namespace Todo.Presentation.Tests.API
             
             // Assert
             Check.That(result).IsInstanceOf<NotFoundResult>();
+        }
+
+        [Fact]
+        public async Task Test_ModifyTodo_With_CorrectItem_Should_Return_OkObjectResult()
+        {
+            // Arrange
+            var modifyItem = new TodoItem
+            {
+                Id = 0,
+                Title = "New title for first todo",
+                IsComplete = true
+            };
+            
+            // Act
+            var result = await _controller.ModifyTodo(modifyItem.Id, modifyItem);
+            
+            // Assert
+            Check.That(result).IsInstanceOf<OkObjectResult>();
+            var okResult = result as OkObjectResult;
+            Check.That(okResult).IsNotNull();
+            var resultValue = okResult.Value;
+            Check.That(resultValue).IsInstanceOf<TodoItem>();
+            
+            var item = resultValue as TodoItem;
+            Check.That(item).IsEqualTo(modifyItem);
+        }
+        
+        [Fact]
+        public async Task Test_ModifyTodo_With_IncorrectItem_Should_Return_BadRequestResult()
+        {
+            // Arrange
+            var modifyItem = new TodoItem
+            {
+                Id = -1,
+                Title = "Bad",
+                IsComplete = false
+            };
+            
+            // Act
+            var result = await _controller.ModifyTodo(modifyItem.Id, modifyItem);
+            
+            // Assert
+            Check.That(result).IsInstanceOf<BadRequestResult>();
         }
     }
 }
