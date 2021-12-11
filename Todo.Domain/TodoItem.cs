@@ -6,17 +6,23 @@ namespace Todo.Domain
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        
+        public string Description { get; set; }
         public bool IsComplete { get; set; }
 
         public void ModifyFrom(TodoItem other)
         {
             Title = other.Title;
+            Description = other.Description;
             IsComplete = other.IsComplete;
         }
         
         private bool Equals(TodoItem other)
         {
-            return Id == other.Id && Title == other.Title && IsComplete == other.IsComplete;
+            return Id == other.Id 
+                   && Title == other.Title 
+                   && Description == other.Description
+                   && IsComplete == other.IsComplete;
         }
 
         public override bool Equals(object obj)
@@ -29,7 +35,7 @@ namespace Todo.Domain
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Id, Title, IsComplete);
+            return HashCode.Combine(Id, Title, Description, IsComplete);
         }
     }
 }

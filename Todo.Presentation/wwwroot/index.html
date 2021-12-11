@@ -25,6 +25,9 @@
                         <del v-if="item.isComplete">{{item.title}}</del>
                         <span v-else>{{item.title}}</span>
                     </h5>
+                    <div>
+                        <button class="btn btn-outline-info" v-on:click="goToDetail(item)">Detail</button>
+                    </div>
                 </div>
             </li>
         </ul>

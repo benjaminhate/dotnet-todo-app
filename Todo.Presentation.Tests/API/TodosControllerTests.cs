@@ -46,12 +46,14 @@ namespace Todo.Presentation.Tests.API
             Check.That(firstItem).IsNotNull();
             Check.That(firstItem.Id).IsEqualTo(0);
             Check.That(firstItem.Title).IsEqualTo("First test");
+            Check.That(firstItem.Description).IsEqualTo("First test description");
             Check.That(firstItem.IsComplete).IsFalse();
             
             var secondItem = items.ElementAt(1);
             Check.That(secondItem).IsNotNull();
             Check.That(secondItem.Id).IsEqualTo(1);
             Check.That(secondItem.Title).IsEqualTo("Second test");
+            Check.That(secondItem.Description).IsEqualTo("Second test description");
             Check.That(secondItem.IsComplete).IsTrue();
         }
 
@@ -75,6 +77,7 @@ namespace Todo.Presentation.Tests.API
             Check.That(item).IsNotNull();
             Check.That(item.Id).IsEqualTo(0);
             Check.That(item.Title).IsEqualTo("First test");
+            Check.That(item.Description).IsEqualTo("First test description");
             Check.That(item.IsComplete).IsFalse();
         }
         
@@ -99,6 +102,7 @@ namespace Todo.Presentation.Tests.API
             {
                 Id = 0,
                 Title = "New title for first todo",
+                Description = "New description for first todo",
                 IsComplete = true
             };
             
@@ -124,6 +128,7 @@ namespace Todo.Presentation.Tests.API
             {
                 Id = -1,
                 Title = "Bad",
+                Description = "I'm bad",
                 IsComplete = false
             };
             
