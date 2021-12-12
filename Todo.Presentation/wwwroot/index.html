@@ -35,9 +35,12 @@
                         <del v-if="item.isComplete">{{item.title}}</del>
                         <span v-else>{{item.title}}</span>
                     </h4>
-                    <div>
+                    <div class="p-2">
                         <button class="btn btn-outline-info" v-on:click="goToDetail(item)">
                             <i class="fa fa-search"></i>
+                        </button>
+                        <button class="btn btn-danger" v-on:click="remove(item)">
+                            <i class="fa fa-trash"></i>
                         </button>
                     </div>
                 </div>

@@ -189,5 +189,31 @@ namespace Todo.Presentation.Tests.API
             var errorMessage = badRequestResult.Value as string;
             Check.That(errorMessage).IsEqualTo("The Todo title is required");
         }
+
+        [Fact]
+        public async Task Test_DeleteTodo_With_CorrectId_Should_Return_OkResult()
+        {
+            // Arrange
+            var correctId = 0;
+            
+            // Act
+            var result = await _controller.DeleteTodo(correctId);
+            
+            // Assert
+            Check.That(result).IsInstanceOf<OkResult>();
+        }
+        
+        [Fact]
+        public async Task Test_DeleteTodo_With_IncorrectId_Should_Return_BadRequestResult()
+        {
+            // Arrange
+            var incorrectId = -1;
+            
+            // Act
+            var result = await _controller.DeleteTodo(incorrectId);
+            
+            // Assert
+            Check.That(result).IsInstanceOf<BadRequestResult>();
+        }
     }
 }
