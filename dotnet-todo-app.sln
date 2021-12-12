@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Utils", "_Utils", "{ACF192
 ProjectSection(SolutionItems) = preProject
 	.gitignore = .gitignore
 	README - Test.md = README - Test.md
+	README.md = README.md
 EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Todo.Presentation.Tests", "Todo.Presentation.Tests\Todo.Presentation.Tests.csproj", "{1C9EB08A-8768-4333-9201-68C242B25E6C}"

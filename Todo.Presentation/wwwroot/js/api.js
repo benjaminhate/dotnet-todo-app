@@ -54,4 +54,16 @@
             return null
         }
     }
+    
+    async deleteTodo(todo){
+        try{
+            const response = await fetch(this.baseUrl+"/todos/"+todo.id, {
+                method: "DELETE"
+            })
+            return response.status === 200
+        }catch (e) {
+            console.error(e)
+            return false
+        }
+    }
 }

@@ -62,5 +62,15 @@ namespace Todo.Presentation.API
                 return BadRequest();
             return Ok(todo);
         }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteTodo(int id)
+        {
+            var deleted = await _repository.DeleteItemWithIdAsync(id);
+            if (deleted)
+                return Ok();
+            return BadRequest();
+        }
     }
 }

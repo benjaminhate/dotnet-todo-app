@@ -34,6 +34,11 @@ const todoListVue = new Vue({
         },
         goToDetail(item){
             window.location = document.location.origin + "/todo.html?id="+item.id
+        },
+        async remove(item){
+            let deleted = await api.deleteTodo(item)
+            if(deleted)
+                this.list.splice(this.list.indexOf(item), 1)
         }
     },
     mounted: function(){
