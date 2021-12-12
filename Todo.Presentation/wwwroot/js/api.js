@@ -1,6 +1,6 @@
 ﻿class API{
     constructor() {
-        this.baseUrl = "https://localhost:5001/api"
+        this.baseUrl = document.location.origin + "/api"
     }
     
     async getAllTodos(){

@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Todo.Domain;
 using Todo.Infrastructure;
+using Todo.Presentation.Extensions;
 
 namespace Todo.Presentation
 {
@@ -34,6 +36,7 @@ namespace Todo.Presentation
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.Redirect("/todo", "/todo.html");
                 endpoints.MapDefaultControllerRoute();
             });
         }

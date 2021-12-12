@@ -22,6 +22,11 @@ const todoListVue = new Vue({
         },
         pushItemToLast(item){
             this.list.push(this.list.splice(this.list.indexOf(item), 1)[0])
+        },
+        goToDetail(item){
+            window.location = document.location.origin + "/todo.html?id="+item.id
         }
     }
 })
+
+todoListVue.refresh()

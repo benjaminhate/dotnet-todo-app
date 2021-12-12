@@ -13,19 +13,22 @@ namespace Todo.Infrastructure
             {
                 Id = 0,
                 IsComplete = false,
-                Title = "My first Todo item"
+                Title = "My first Todo item",
+                Description = "Description of the first todo"
             },
             new TodoItem
             {
                 Id = 1,
                 IsComplete = false,
-                Title = "Task I should do but never will"
+                Title = "Task I should do but never will",
+                Description = "This is an impossible task"
             },
             new TodoItem
             {
                 Id = 2,
                 IsComplete = true,
-                Title = "Already completed task"
+                Title = "Already completed task",
+                Description = "I'm the best !"
             }
         };
 

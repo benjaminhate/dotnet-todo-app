@@ -34,18 +34,21 @@ namespace Todo.Infrastructure.Tests
             Check.That(firstItem).IsNotNull();
             Check.That(firstItem.Id).IsEqualTo(0);
             Check.That(firstItem.Title).IsEqualTo("My first Todo item");
+            Check.That(firstItem.Description).IsEqualTo("Description of the first todo");
             Check.That(firstItem.IsComplete).IsFalse();
             
             var secondItem = items.ElementAt(1);
             Check.That(secondItem).IsNotNull();
             Check.That(secondItem.Id).IsEqualTo(1);
             Check.That(secondItem.Title).IsEqualTo("Task I should do but never will");
+            Check.That(secondItem.Description).IsEqualTo("This is an impossible task");
             Check.That(secondItem.IsComplete).IsFalse();
             
             var thirdItem = items.ElementAt(2);
             Check.That(thirdItem).IsNotNull();
             Check.That(thirdItem.Id).IsEqualTo(2);
             Check.That(thirdItem.Title).IsEqualTo("Already completed task");
+            Check.That(thirdItem.Description).IsEqualTo("I'm the best !");
             Check.That(thirdItem.IsComplete).IsTrue();
         }
 
@@ -62,6 +65,7 @@ namespace Todo.Infrastructure.Tests
             Check.That(result).IsNotNull();
             Check.That(result.Id).IsEqualTo(0);
             Check.That(result.Title).IsEqualTo("My first Todo item");
+            Check.That(result.Description).IsEqualTo("Description of the first todo");
             Check.That(result.IsComplete).IsFalse();
         }
         
@@ -86,6 +90,7 @@ namespace Todo.Infrastructure.Tests
             {
                 Id = 3,
                 Title = "Added Todo",
+                Description = "This is a cool todo",
                 IsComplete = false
             };
             
@@ -109,6 +114,7 @@ namespace Todo.Infrastructure.Tests
             {
                 Id = 0,
                 Title = "New title",
+                Description = "New description",
                 IsComplete = true
             };
             
@@ -131,6 +137,7 @@ namespace Todo.Infrastructure.Tests
             {
                 Id = -1,
                 Title = "Bad",
+                Description = "I'm bad",
                 IsComplete = false
             };
             

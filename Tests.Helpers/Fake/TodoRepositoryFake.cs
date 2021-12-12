@@ -13,12 +13,14 @@ namespace Tests.Helpers.Fake
             {
                 Id = 0,
                 Title = "First test",
+                Description = "First test description",
                 IsComplete = false
             },
             new TodoItem
             {
                 Id = 1,
                 Title = "Second test",
+                Description = "Second test description",
                 IsComplete = true
             }
         };
