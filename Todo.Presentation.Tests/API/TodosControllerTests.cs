@@ -138,5 +138,56 @@ namespace Todo.Presentation.Tests.API
             // Assert
             Check.That(result).IsInstanceOf<BadRequestResult>();
         }
+
+        [Fact]
+        public async Task Test_AddTodo_With_NewTodo_Should_Return_OkObjectResult()
+        {
+            // Arrange
+            var newItem = new TodoItem
+            {
+                Title = "New todo",
+                Description = "New todo description",
+                IsComplete = false
+            };
+            
+            // Act
+            var result = await _controller.AddTodo(newItem);
+            
+            // Assert
+            Check.That(result).IsInstanceOf<OkObjectResult>();
+            var okResult = result as OkObjectResult;
+            Check.That(okResult).IsNotNull();
+            var resultValue = okResult.Value;
+            Check.That(resultValue).IsInstanceOf<TodoItem>();
+            
+            var item = resultValue as TodoItem;
+            Check.That(item).IsNotNull();
+            Check.That(item.Id).IsEqualTo(2);
+            Check.That(item.Title).IsEqualTo("New todo");
+            Check.That(item.Description).IsEqualTo("New todo description");
+            Check.That(item.IsComplete).IsFalse();
+        }
+        
+        [Fact]
+        public async Task Test_AddTodo_With_IncorrectTodo_Should_Return_BadRequestObjectResult()
+        {
+            // Arrange
+            var newItem = new TodoItem
+            {
+                Title = string.Empty,
+                Description = "Bad",
+                IsComplete = true
+            };
+            
+            // Act
+            var result = await _controller.AddTodo(newItem);
+            
+            // Assert
+            Check.That(result).IsInstanceOf<BadRequestObjectResult>();
+            var badRequestResult = result as BadRequestObjectResult;
+            Check.That(badRequestResult).IsNotNull();
+            var errorMessage = badRequestResult.Value as string;
+            Check.That(errorMessage).IsEqualTo("The Todo title is required");
+        }
     }
 }

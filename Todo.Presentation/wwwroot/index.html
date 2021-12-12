@@ -9,25 +9,32 @@
 </head>
 <body>
     
-    <div class="container col-md-8" id="todo-list">
-        <h1>Todo</h1>
-        <button class="btn btn-primary" v-on:click="refresh">
-            <i class="fa fa-sync"></i>
-        </button>
+    <div class="container col-md-6" id="todo-list">
+        <div class="d-flex flex-row">
+            <h1 class="flex-grow-1">Todo</h1>
+            <div class="p-2">
+                <button class="btn btn-success" data-toggle="modal" data-target="#add-todo-modal">
+                    <i class="fa fa-plus"></i>
+                </button>
+                <button class="btn btn-primary" v-on:click="refresh">
+                    <i class="fa fa-sync"></i>
+                </button>
+            </div>
+        </div>
         <div class="spinner-border text-primary" role="status" v-if="refreshing">
             <span class="sr-only">Loading...</span>
         </div>
-        <ul class="list-group col-md-6">
+        <ul class="list-group col-md-12">
             <li v-for="item in list" :key="item.id" class="list-group-item text-left">
                 <div class="d-flex w-100 justify-content-between">
-                    <div>
+                    <div class="p-2">
                         <label for="isCompleteCheck"></label>
                         <input type="checkbox" class="form-check-input" id="isCompleteCheck" v-model="item.isComplete" v-on:click="complete(item)">    
                     </div>
-                    <h5 class="flex-grow-1">
+                    <h4 class="flex-grow-1">
                         <del v-if="item.isComplete">{{item.title}}</del>
                         <span v-else>{{item.title}}</span>
-                    </h5>
+                    </h4>
                     <div>
                         <button class="btn btn-outline-info" v-on:click="goToDetail(item)">
                             <i class="fa fa-search"></i>
@@ -36,6 +43,44 @@
                 </div>
             </li>
         </ul>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal fade" id="add-todo-modal" tabindex="-1" role="dialog" aria-labelledby="add-todo-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add-todo-modal-label">Modal title</h5>
+                    <button type="button" class="close" aria-label="Close" v-on:click="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group row">
+                            <label for="formTitle" class="col-md-3 col-form-label col-form-label-lg">Title</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control form-control-lg" v-bind:class="{'is-invalid': !isValid}" aria-describedby="validationTitle" id="formTitle"
+                                       placeholder="My Todo" required v-model="title">
+                                <div id="validationTitle" class="invalid-feedback">
+                                    Title is required.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="formDescription" class="col-md-3 col-form-label">Description</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" id="formDescription" rows="3" placeholder="Description of the Todo" v-model="description"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" v-on:click="close">Close</button>
+                    <button type="button" class="btn btn-primary" v-on:click="addItem">Add</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>

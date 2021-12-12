@@ -88,7 +88,6 @@ namespace Todo.Infrastructure.Tests
             // Arrange
             var addedItem = new TodoItem
             {
-                Id = 3,
                 Title = "Added Todo",
                 Description = "This is a cool todo",
                 IsComplete = false

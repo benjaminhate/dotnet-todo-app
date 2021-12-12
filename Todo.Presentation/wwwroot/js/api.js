@@ -38,4 +38,20 @@
             return null
         }
     }
+    
+    async addTodo(todo){
+        try{
+            const response = await fetch(this.baseUrl+"/todos", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(todo)
+            })
+            return await response.json()
+        }catch (e) {
+            console.error(e)
+            return null
+        }
+    }
 }
