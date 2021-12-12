@@ -1,5 +1,5 @@
 # Todo App
-A todo app was made following the [Test](README - Test.md)
+A todo app was made following the README - Test.md
 
 ## Front end
 HTML, CSS, JS
