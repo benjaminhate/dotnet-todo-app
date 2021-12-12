@@ -49,5 +49,18 @@ namespace Todo.Presentation.API
                 return BadRequest();
             return Ok(todo);
         }
+        
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(TodoItem))]
+        public async Task<IActionResult> AddTodo([FromBody] TodoItem item)
+        {
+            if (string.IsNullOrEmpty(item.Title))
+                return BadRequest("The Todo title is required");
+            
+            var todo = await _repository.AddItemAsync(item);
+            if (todo == null)
+                return BadRequest();
+            return Ok(todo);
+        }
     }
 }

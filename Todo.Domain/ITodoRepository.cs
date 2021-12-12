@@ -9,7 +9,7 @@ namespace Todo.Domain
         
         Task<TodoItem> GetItemByIdAsync(int id);
 
-        Task AddItemAsync(TodoItem item);
+        Task<TodoItem> AddItemAsync(TodoItem item);
 
         Task<TodoItem> ModifyItemAsync(TodoItem item);
 

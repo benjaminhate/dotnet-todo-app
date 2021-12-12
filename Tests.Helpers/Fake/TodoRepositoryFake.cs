@@ -7,6 +7,7 @@ namespace Tests.Helpers.Fake
 {
     public class TodoRepositoryFake : ITodoRepository
     {
+        private int _nextId = 2;
         private readonly List<TodoItem> _items = new List<TodoItem>
         {
             new TodoItem
@@ -35,10 +36,15 @@ namespace Tests.Helpers.Fake
             return Task.FromResult(_items.FirstOrDefault(i => i.Id == id));
         }
 
-        public Task AddItemAsync(TodoItem item)
+        public Task<TodoItem> AddItemAsync(TodoItem item)
         {
-            _items.Add(item);
-            return Task.CompletedTask;
+            var newItem = new TodoItem
+            {
+                Id = _nextId++
+            };
+            newItem.ModifyFrom(item);
+            _items.Add(newItem);
+            return Task.FromResult(newItem);
         }
 
         public async Task<TodoItem> ModifyItemAsync(TodoItem item)

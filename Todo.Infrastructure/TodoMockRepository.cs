@@ -7,6 +7,7 @@ namespace Todo.Infrastructure
 {
     public class TodoMockRepository : ITodoRepository
     {
+        private int _nextId = 3;
         private readonly List<TodoItem> _items = new List<TodoItem>
         {
             new TodoItem
@@ -32,6 +33,11 @@ namespace Todo.Infrastructure
             }
         };
 
+        private int GetNextId()
+        {
+            return _nextId++;
+        }
+
         public Task<IEnumerable<TodoItem>> GetAllItemsAsync()
         {
             return Task.FromResult(_items.AsEnumerable());
@@ -42,10 +48,16 @@ namespace Todo.Infrastructure
             return Task.FromResult(_items.FirstOrDefault(i => i.Id == id));
         }
 
-        public Task AddItemAsync(TodoItem item)
+        public Task<TodoItem> AddItemAsync(TodoItem item)
         {
-            _items.Add(item);
-            return Task.CompletedTask;
+            var newItem = new TodoItem
+            {
+                Id = GetNextId()
+            };
+            newItem.ModifyFrom(item);
+            
+            _items.Add(newItem);
+            return Task.FromResult(newItem);
         }
 
         public async Task<TodoItem> ModifyItemAsync(TodoItem item)
